@@ -1,6 +1,6 @@
 import webbrowser
 from ulauncher.api.shared.action.BaseAction import BaseAction
-
+from ulauncher.utils.Settings import Settings
 
 class OpenUrlAction(BaseAction):
     """
@@ -11,6 +11,8 @@ class OpenUrlAction(BaseAction):
 
     def __init__(self, url):
         self.url = url
+        self.settings = Settings.get_instance()
 
     def run(self):
-        webbrowser.open_new_tab(self.url)
+        browser_command = self.settings.get_property('browser-command')
+        webbrowser.get(browser_command).open_new_tab(self.url)

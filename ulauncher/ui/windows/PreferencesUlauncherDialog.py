@@ -246,6 +246,7 @@ class PreferencesUlauncherDialog(Gtk.Dialog, WindowHelper):
             'render_on_screen': self.settings.get_property('render-on-screen'),
             'is_wayland': is_wayland(),
             'terminal_command': self.settings.get_property('terminal-command'),
+            'browser_command': self.settings.get_property('browser-command'),
             'grab_mouse_pointer': self.settings.get_property('grab-mouse-pointer'),
             'env': {
                 'version': get_version(),
@@ -316,6 +317,13 @@ class PreferencesUlauncherDialog(Gtk.Dialog, WindowHelper):
         terminal_command = url_params['query']['value']
         logger.info('Set terminal launch command to %s', terminal_command)
         self.settings.set_property('terminal-command', terminal_command)
+        self.settings.save_to_file()
+    
+    @rt.route('/set/browser-command')
+    def prefs_set_browser_command(self, url_params):
+        browser_command = url_params['query']['value']
+        logger.info('Set browser command to %s', browser_command)
+        self.settings.set_property('browser-command', browser_command)
         self.settings.save_to_file()
 
     @rt.route('/show/hotkey-dialog')

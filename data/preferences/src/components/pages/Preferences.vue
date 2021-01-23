@@ -126,6 +126,20 @@
         </td>
       </tr>
       <tr>
+        <td>
+          <label for="browser-command">Browser Command</label>
+          <small>
+            <p>
+              Overrides browser path for launching web browser.
+              Set to an empty value for default browser
+            </p>
+          </small>
+        </td>
+        <td>
+          <b-form-input style="width:250px" id="browser-command" v-model="browser_command"></b-form-input>
+        </td>
+      </tr>
+      <tr>
         <td class="pull-top">
           <label>Blacklisted App Dirs</label>
           <small>
@@ -235,6 +249,18 @@ export default {
       set(value) {
         return jsonp('prefs://set/terminal-command', { value: value }).then(
           () => this.setPrefs({ terminal_command: value }),
+          err => bus.$emit('error', err)
+        )
+      }
+    },
+
+    browser_command: {
+      get() {
+        return this.prefs.browser_command
+      },
+      set(value) {
+        return jsonp('prefs://set/browser-command', { value: value }).then(
+          () => this.setPrefs({ browser_command: value }),
           err => bus.$emit('error', err)
         )
       }
